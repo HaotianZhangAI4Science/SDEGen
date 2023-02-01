@@ -1,7 +1,9 @@
 # SDEGen
 This is the official version of  SDEGen model, the more detailed description and how to train the model on your own dataset is coming soon! 
 
-![]()
+<div align=center>
+<img src="./pic/TOC.png" width="50%" height="50%" alt="TOC" align=center />
+</div>
 
 By the way, a portion of the code is based on [ConfGF](https://github.com/DeepGraphLearning/ConfGF), please consider checking their work if you're interested in the Molecular Conformation Generation Problem. 
 
