@@ -44,7 +44,7 @@ python sde_sample_platinum.py --config_path bash_sde/drugs_ema.yml --start 0 --e
 
 #### Learn more about Molecular Dynamics performed in the last part of the experiment.
 
-I have provided the original data and the analysis.ipynb at [here](), have fun!
+I have provided the original data and the analysis.ipynb at [here](https://drive.google.com/file/d/15JuBGy1obSFm-2p8wR2iBbryXyIGMvXM/view?usp=share_link), have fun!
 
 By the way, recently, I have noticed some people confused the molecular conformation generation and molecular generation, while the former refers to learning P(R|G), the latter is related to learning P(G).
 Please be careful when conducting research! Have your own taste of work, knowing what is good and what is bad. Don't be the man that 'have no views of one's own, repeat what other says'. 
