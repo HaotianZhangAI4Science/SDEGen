@@ -60,7 +60,6 @@ if __name__ == '__main__':
 
     load_path = os.path.join(config.data.base_path, '%s_processed' % config.data.dataset)
     logger.log('loading data from %s' % load_path)
-    # logger.log(train_data, val_data, 'train val')
     
     if config.scheme.framework == 'dsm': # baseline
         model = model.DistanceScoreMatch(config)
@@ -92,7 +91,6 @@ if __name__ == '__main__':
     train_data = data.GEOMDataset(data=train_data, transform=transform)
     val_data = GEOMDataset(data=val_data, transform=transform)
     test_data = []
-    #test_data = GEOMDataset_PackedConf(data=test_data, transform=transform)
 
     optimizer = utils.get_optimizer(config.train.optimizer, model)
     scheduler = utils.get_scheduler(config.train.scheduler, optimizer)

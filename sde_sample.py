@@ -23,7 +23,6 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='confgf')
     parser.add_argument('--config_path', type=str, help='path of dataset', required=True)
-    #parser.add_argument('--generator', type=str, help='type of generator [ConfGF, ConfGFDist]', required=True)
     parser.add_argument('--num_repeat', type=int, default=None, help='end idx of test generation')
     parser.add_argument('--start', type=int, default=-1, help='start idx of test generation')
     parser.add_argument('--end', type=int, default=-1, help='end idx of test generation')
