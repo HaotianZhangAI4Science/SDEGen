@@ -324,7 +324,7 @@ class DefaultRunner(object):
         return all_data_list
 
 
-    def sde_generate_samples_from_mol(self,mol,num_repeat=1,out_path=None,file_name=None,num_steps=250,num_langevin_steps=2,useFF=False):
+    def sde_generate_samples_from_mol(self,mol,num_repeat=1,out_path=None,file_name=None,num_steps=250,num_langevin_steps=2,useFF=True):
         data = feats.mol_to_data(mol)
         smiles = Chem.MolToSmiles(mol)
         '''
