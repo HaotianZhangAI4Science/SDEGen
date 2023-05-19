@@ -272,59 +272,9 @@ class DefaultRunner(object):
         data.d_recover = d_recover.view(-1, 1).to(data.edge_length)
         data.d_gen = d_gen.view(-1, 1).to(data.edge_length)
         return data, pos_traj, d_gen, d_recover
-    
-    def sde_generate_samples_from_testset(self,start,end,num_repeat=None,out_path=None,file_name='sample_from_testset'):
-        '''
-        >> start&end: suppose the length of testset is 200, choosing the start=0, end=100 means 
-            we sample data from testset[0:100].
-        >> num_repeat: suppose one of the datas contained in the testset has 61 conformation, 
-            num_repeat =2 means we generate 2 conformation for evaluation task, but if num_repeat=None,
-            this means we are under the 2*num_pos_ref mode.
-        >> out_path is self-explanatory.
-
-        This function we use the packed testset to generate num_repeat times conformations
-        than the reference conformations, and this is just because we want to compute the 
-        COV and MAT metrics for sde method on a specific testset.
-        For user who wants to generate conformations merely through throwing a smiles of a 
-        molecule, we recommand he/she to use the sde_generate_samples_from_smiles.
-        '''
-
-        test_set = self.test_set
-        generate_start = time()
-        all_data_list = []
-        print('len of all data : %d' % len(test_set))
-        SDE_model = self._model
-        for i in tqdm(range(len(test_set))):
-            if i < start or i >= end:
-                continue
-            return_data = copy.deepcopy(test_set[i])
-            num_repeat_ = num_repeat if num_repeat is not None else 2 * test_set[i].num_pos_ref.item()
-            batch = utils.repeat_data(test_set[i], num_repeat_).to(self.device)
-            embedder = utils.Embed3D(step_size=self.config.test.gen.dg_step_size, \
-                                         num_steps=self.config.test.gen.dg_num_steps, \
-                                         verbose=self.config.test.gen.verbose)
-
-            batch,pos_traj,d_gen,d_recover = self.sde_generator(batch,SDE_model,self.config.test.gen.num_euler_steps,self.config.test.gen.num_langevin_steps)
-
-            batch = batch.to('cpu').to_data_list()
-
-            all_pos = []
-            for i in range(len(batch)):
-                all_pos.append(batch[i].pos_gen)
-            return_data.pos_gen = torch.cat(all_pos, 0)# (num_repeat * num_node, 3)
-            return_data.num_pos_gen = torch.tensor([len(all_pos)], dtype=torch.long)
-            all_data_list.append(return_data)
-            return_data.d_gen = d_gen
-        if out_path is not None:
-            with open(os.path.join(out_path, file_name), "wb") as fout:
-                pickle.dump(all_data_list, fout)
-            print('save generated %s samples to %s done!' % ('sde', out_path))
-        print('pos generation[%d-%d] done  |  Time: %.5f' % (start, end, time() - generate_start))  
-
-        return all_data_list
 
 
-    def sde_generate_samples_from_mol(self,mol,num_repeat=1,out_path=None,file_name=None,num_steps=250,num_langevin_steps=2,useFF=True):
+    def sde_generate_samples_from_mol(self,mol,num_repeat=1,out_path=None,file_name=None,num_steps=250,num_langevin_steps=2):
         data = feats.mol_to_data(mol)
         smiles = Chem.MolToSmiles(mol)
         '''
@@ -356,8 +306,7 @@ class DefaultRunner(object):
             gen_mol_list = []
             for i in range(num_gen):
                 gen_mol = utils.set_mol_positions(return_data.rdmol,pos_gen[i])
-                if useFF == True:
-                    MMFFOptimizeMolecule(gen_mol)
+                MMFFOptimizeMolecule(gen_mol)
                 gen_mol_list.append(gen_mol)
             file_name = os.path.join(out_path,file_name)
             if file_name[-4:] == '.sdf':

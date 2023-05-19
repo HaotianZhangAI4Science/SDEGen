@@ -23,9 +23,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='confgf')
     parser.add_argument('--config_path', type=str, help='path of dataset', required=True)
-    parser.add_argument('--num_repeat', type=int, default=None, help='end idx of test generation')
-    parser.add_argument('--start', type=int, default=-1, help='start idx of test generation')
-    parser.add_argument('--end', type=int, default=-1, help='end idx of test generation')
+    parser.add_argument('--num_repeat', type=int, default=10, help='end idx of test generation')
     parser.add_argument('--smiles', type=str, default=None, help='smiles for generation')
     parser.add_argument('--seed', type=int, default=2021, help='overwrite config seed')
 
@@ -92,11 +90,8 @@ if __name__ == '__main__':
     scheduler = None
     solver = runner.DefaultRunner(train_data, val_data, test_data, model, optimizer, scheduler, gpus, config)
     solver.load(config.test.init_checkpoint, epoch=config.test.epoch)
-    if args.start != -1 and args.end != -1:
-        solver.sde_generate_samples_from_testset(args.start, args.end,\
-            num_repeat=args.num_repeat,
-            out_path=config.test.output_path,
-            file_name='sdegen_drugs_gen_{}_{}_3.pkl'.format(config.test.gen.num_euler_steps, \
-                config.test.gen.num_langevin_steps))
+
+    mol = Chem.MolFromSmiles(args.smiles)
+    solver.sde_generate_samples_from_mol(mol,num_repeat=args.num_repeat,out_path='./',file_name='./change.sdf',num_steps=config.test.gen.num_euler_steps,num_langevin_steps=config.test.gen.num_langevin_steps):
 
 
