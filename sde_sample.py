@@ -1,4 +1,4 @@
-# python sde_sample.py --config_path bash_sde/drugs_ema.yml --start 0 --end 200
+# python sde_sample.py --config_path bash_sde/drugs_ema.yml --smiles XXX --num_repeat 50 
 import argparse
 import numpy as np
 import random
