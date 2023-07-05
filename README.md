@@ -19,7 +19,7 @@ python train.py --config_path ./bash_sde/qm9_default_ema.yml
 
 ### Generate samples for the given smiles
 
-You can download the pre-trained checkpoint for [drugs](https://drive.google.com/file/d/1KpixpWnypOXgdF5uM7m6uNmuR8D4Nba8/view?usp=share_link) and [qm9](https://drive.google.com/file/d/14hOkQqXy_B6LxRbjk1gPt7xe3QpXQjAu/view?usp=share_link). And then put them in the corresponding directory at ./log/sde. 
+You can download the pre-trained checkpoint  [here](https://drive.google.com/file/d/1KpixpWnypOXgdF5uM7m6uNmuR8D4Nba8/view?usp=share_link). And then put them in the corresponding directory at ./log/sde. 
 
 To generate samples for the test set, running:
 
