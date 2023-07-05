@@ -8,7 +8,7 @@ This is the official version of  SDEGen model!
 
 ### Training
 
-The processed data be found here [qm9](https://doi.org/10.5281/zenodo.7938106), [drugs](https://doi.org/10.5281/zenodo.7938100) 
+The processed data be found [here](https://doi.org/10.5281/zenodo.7938100).
 
 ```python
 python train.py --config_path ./bash_sde/drugs_ema.yml
